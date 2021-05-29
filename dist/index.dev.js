@@ -46,6 +46,10 @@
       component.$$.on_destroy.push(subscribe(store, callback));
     }
 
+    function null_to_empty(value) {
+      return value == null ? '' : value;
+    }
+
     function set_store_value(store, ret, value = ret) {
       store.set(value);
       return ret;
@@ -1597,22 +1601,22 @@
 
     function add_css() {
     	var style = element("style");
-    	style.id = "svelte-1a534py-style";
-    	style.textContent = ".cl.svelte-1a534py .svelte-1a534py{box-sizing:border-box}.cl.svelte-1a534py.svelte-1a534py{box-shadow:0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);box-sizing:border-box;width:100%;position:relative}.cl-content.svelte-1a534py.svelte-1a534py{height:300px;outline:0;overflow-y:auto;padding:10px;width:100%;background-color:white}.cl-actionbar.svelte-1a534py.svelte-1a534py{background-color:#ecf0f1;border-bottom:1px solid rgba(10, 10, 10, 0.1);width:100%}.cl-button.svelte-1a534py.svelte-1a534py{background-color:transparent;border:none;cursor:pointer;height:35px;outline:0;width:35px;vertical-align:top;position:relative}.cl-button.svelte-1a534py.svelte-1a534py:hover,.cl-button.active.svelte-1a534py.svelte-1a534py{background-color:#fff}.cl-button.svelte-1a534py.svelte-1a534py:disabled{opacity:.5;pointer-events:none}.cl-textarea.svelte-1a534py.svelte-1a534py{display:none;max-width:100%;min-width:100%;border:none;padding:10px}.cl-textarea.svelte-1a534py.svelte-1a534py:focus{outline:none}";
+    	style.id = "svelte-at27n4-style";
+    	style.textContent = ".cl.svelte-at27n4 .svelte-at27n4{box-sizing:border-box}.cl.svelte-at27n4.svelte-at27n4{box-shadow:0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);box-sizing:border-box;width:100%;position:relative}.cl-content.svelte-at27n4.svelte-at27n4{height:300px;outline:0;overflow-y:auto;padding:10px;width:100%;background-color:white}.cl-actionbar.svelte-at27n4.svelte-at27n4{background-color:#ecf0f1;border-bottom:1px solid rgba(10, 10, 10, 0.1);width:100%}.cl-button.svelte-at27n4.svelte-at27n4{background-color:transparent;border:none;cursor:pointer;height:35px;outline:0;width:35px;vertical-align:top;position:relative}.cl-button.svelte-at27n4.svelte-at27n4:hover,.cl-button.active.svelte-at27n4.svelte-at27n4{background-color:#fff}.cl-button.svelte-at27n4.svelte-at27n4:disabled{opacity:0.5;pointer-events:none}.cl-textarea.svelte-at27n4.svelte-at27n4{display:none;max-width:100%;min-width:100%;border:none;padding:10px}.cl-textarea.svelte-at27n4.svelte-at27n4:focus{outline:none}";
     	append(document_1.head, style);
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[37] = list[i];
+    	child_ctx[43] = list[i];
     	return child_ctx;
     }
 
-    // (8:4) {#each $state.actionBtns as action}
+    // (166:4) {#each $state.actionBtns as action}
     function create_each_block(ctx) {
     	let button;
     	let html_tag;
-    	let raw_value = /*action*/ ctx[37].icon + "";
+    	let raw_value = /*action*/ ctx[43].icon + "";
     	let t;
     	let button_class_value;
     	let button_title_value;
@@ -1621,7 +1625,7 @@
     	let dispose;
 
     	function click_handler_1(...args) {
-    		return /*click_handler_1*/ ctx[23](/*action*/ ctx[37], ...args);
+    		return /*click_handler_1*/ ctx[29](/*action*/ ctx[43], ...args);
     	}
 
     	return {
@@ -1630,9 +1634,13 @@
     			t = space();
     			html_tag = new HtmlTag(t);
     			attr(button, "type", "button");
-    			attr(button, "class", button_class_value = "cl-button " + (/*action*/ ctx[37].active ? "active" : "") + " svelte-1a534py");
-    			attr(button, "title", button_title_value = /*action*/ ctx[37].title);
-    			button.disabled = button_disabled_value = /*action*/ ctx[37].disabled;
+
+    			attr(button, "class", button_class_value = "" + (null_to_empty(/*action*/ ctx[43].active
+    			? /*cl_activeButton*/ ctx[7]
+    			: /*cl_button*/ ctx[6]) + " svelte-at27n4"));
+
+    			attr(button, "title", button_title_value = /*action*/ ctx[43].title);
+    			button.disabled = button_disabled_value = /*action*/ ctx[43].disabled;
     		},
     		m(target, anchor) {
     			insert(target, button, anchor);
@@ -1646,17 +1654,19 @@
     		},
     		p(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*$state*/ 4 && raw_value !== (raw_value = /*action*/ ctx[37].icon + "")) html_tag.p(raw_value);
+    			if (dirty[0] & /*$state*/ 256 && raw_value !== (raw_value = /*action*/ ctx[43].icon + "")) html_tag.p(raw_value);
 
-    			if (dirty[0] & /*$state*/ 4 && button_class_value !== (button_class_value = "cl-button " + (/*action*/ ctx[37].active ? "active" : "") + " svelte-1a534py")) {
+    			if (dirty[0] & /*$state, cl_activeButton, cl_button*/ 448 && button_class_value !== (button_class_value = "" + (null_to_empty(/*action*/ ctx[43].active
+    			? /*cl_activeButton*/ ctx[7]
+    			: /*cl_button*/ ctx[6]) + " svelte-at27n4"))) {
     				attr(button, "class", button_class_value);
     			}
 
-    			if (dirty[0] & /*$state*/ 4 && button_title_value !== (button_title_value = /*action*/ ctx[37].title)) {
+    			if (dirty[0] & /*$state*/ 256 && button_title_value !== (button_title_value = /*action*/ ctx[43].title)) {
     				attr(button, "title", button_title_value);
     			}
 
-    			if (dirty[0] & /*$state*/ 4 && button_disabled_value !== (button_disabled_value = /*action*/ ctx[37].disabled)) {
+    			if (dirty[0] & /*$state*/ 256 && button_disabled_value !== (button_disabled_value = /*action*/ ctx[43].disabled)) {
     				button.disabled = button_disabled_value;
     			}
     		},
@@ -1671,18 +1681,22 @@
     function create_fragment(ctx) {
     	let div2;
     	let div0;
+    	let div0_class_value;
     	let t0;
     	let div1;
+    	let div1_class_value;
     	let t1;
     	let textarea;
+    	let textarea_class_value;
     	let t2;
     	let editormodal;
     	let t3;
     	let editorcolorpicker;
+    	let div2_class_value;
     	let current;
     	let mounted;
     	let dispose;
-    	let each_value = /*$state*/ ctx[2].actionBtns;
+    	let each_value = /*$state*/ ctx[8].actionBtns;
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -1691,10 +1705,10 @@
 
     	let editormodal_props = {};
     	editormodal = new EditorModal({ props: editormodal_props });
-    	/*editormodal_binding*/ ctx[30](editormodal);
+    	/*editormodal_binding*/ ctx[36](editormodal);
     	let editorcolorpicker_props = {};
     	editorcolorpicker = new EditorColorPicker({ props: editorcolorpicker_props });
-    	/*editorcolorpicker_binding*/ ctx[31](editorcolorpicker);
+    	/*editorcolorpicker_binding*/ ctx[37](editorcolorpicker);
 
     	return {
     		c() {
@@ -1713,15 +1727,15 @@
     			create_component(editormodal.$$.fragment);
     			t3 = space();
     			create_component(editorcolorpicker.$$.fragment);
-    			attr(div0, "class", "cl-actionbar svelte-1a534py");
+    			attr(div0, "class", div0_class_value = "" + (null_to_empty(/*cl_actionbar*/ ctx[4]) + " svelte-at27n4"));
     			attr(div1, "id", /*contentId*/ ctx[1]);
-    			attr(div1, "class", "cl-content svelte-1a534py");
+    			attr(div1, "class", div1_class_value = "" + (null_to_empty(/*cl_content*/ ctx[5]) + " svelte-at27n4"));
     			set_style(div1, "height", /*height*/ ctx[0]);
     			attr(div1, "contenteditable", "true");
-    			attr(textarea, "class", "cl-textarea svelte-1a534py");
+    			attr(textarea, "class", textarea_class_value = "" + (null_to_empty(/*cl_textarea*/ ctx[3]) + " svelte-at27n4"));
     			set_style(textarea, "max-height", /*height*/ ctx[0]);
     			set_style(textarea, "min-height", /*height*/ ctx[0]);
-    			attr(div2, "class", "cl svelte-1a534py");
+    			attr(div2, "class", div2_class_value = "" + (null_to_empty(/*cl_root*/ ctx[2]) + " svelte-at27n4"));
     		},
     		m(target, anchor) {
     			insert(target, div2, anchor);
@@ -1733,32 +1747,32 @@
 
     			append(div2, t0);
     			append(div2, div1);
-    			/*div1_binding*/ ctx[24](div1);
+    			/*div1_binding*/ ctx[30](div1);
     			append(div2, t1);
     			append(div2, textarea);
-    			/*textarea_binding*/ ctx[29](textarea);
+    			/*textarea_binding*/ ctx[35](textarea);
     			append(div2, t2);
     			mount_component(editormodal, div2, null);
     			append(div2, t3);
     			mount_component(editorcolorpicker, div2, null);
-    			/*div2_binding*/ ctx[32](div2);
+    			/*div2_binding*/ ctx[38](div2);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen(window, "click", /*click_handler*/ ctx[22]),
-    					listen(div1, "input", /*input_handler*/ ctx[25]),
-    					listen(div1, "mouseup", /*mouseup_handler*/ ctx[26]),
-    					listen(div1, "keyup", /*keyup_handler*/ ctx[27]),
-    					listen(div1, "paste", /*paste_handler*/ ctx[28])
+    					listen(window, "click", /*click_handler*/ ctx[28]),
+    					listen(div1, "input", /*input_handler*/ ctx[31]),
+    					listen(div1, "mouseup", /*mouseup_handler*/ ctx[32]),
+    					listen(div1, "keyup", /*keyup_handler*/ ctx[33]),
+    					listen(div1, "paste", /*paste_handler*/ ctx[34])
     				];
 
     				mounted = true;
     			}
     		},
     		p(ctx, dirty) {
-    			if (dirty[0] & /*$state, _btnClicked*/ 132) {
-    				each_value = /*$state*/ ctx[2].actionBtns;
+    			if (dirty[0] & /*$state, cl_activeButton, cl_button, _btnClicked*/ 8640) {
+    				each_value = /*$state*/ ctx[8].actionBtns;
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
@@ -1780,12 +1794,24 @@
     				each_blocks.length = each_value.length;
     			}
 
+    			if (!current || dirty[0] & /*cl_actionbar*/ 16 && div0_class_value !== (div0_class_value = "" + (null_to_empty(/*cl_actionbar*/ ctx[4]) + " svelte-at27n4"))) {
+    				attr(div0, "class", div0_class_value);
+    			}
+
     			if (!current || dirty[0] & /*contentId*/ 2) {
     				attr(div1, "id", /*contentId*/ ctx[1]);
     			}
 
+    			if (!current || dirty[0] & /*cl_content*/ 32 && div1_class_value !== (div1_class_value = "" + (null_to_empty(/*cl_content*/ ctx[5]) + " svelte-at27n4"))) {
+    				attr(div1, "class", div1_class_value);
+    			}
+
     			if (!current || dirty[0] & /*height*/ 1) {
     				set_style(div1, "height", /*height*/ ctx[0]);
+    			}
+
+    			if (!current || dirty[0] & /*cl_textarea*/ 8 && textarea_class_value !== (textarea_class_value = "" + (null_to_empty(/*cl_textarea*/ ctx[3]) + " svelte-at27n4"))) {
+    				attr(textarea, "class", textarea_class_value);
     			}
 
     			if (!current || dirty[0] & /*height*/ 1) {
@@ -1800,6 +1826,10 @@
     			editormodal.$set(editormodal_changes);
     			const editorcolorpicker_changes = {};
     			editorcolorpicker.$set(editorcolorpicker_changes);
+
+    			if (!current || dirty[0] & /*cl_root*/ 4 && div2_class_value !== (div2_class_value = "" + (null_to_empty(/*cl_root*/ ctx[2]) + " svelte-at27n4"))) {
+    				attr(div2, "class", div2_class_value);
+    			}
     		},
     		i(local) {
     			if (current) return;
@@ -1815,13 +1845,13 @@
     		d(detaching) {
     			if (detaching) detach(div2);
     			destroy_each(each_blocks, detaching);
-    			/*div1_binding*/ ctx[24](null);
-    			/*textarea_binding*/ ctx[29](null);
-    			/*editormodal_binding*/ ctx[30](null);
+    			/*div1_binding*/ ctx[30](null);
+    			/*textarea_binding*/ ctx[35](null);
+    			/*editormodal_binding*/ ctx[36](null);
     			destroy_component(editormodal);
-    			/*editorcolorpicker_binding*/ ctx[31](null);
+    			/*editorcolorpicker_binding*/ ctx[37](null);
     			destroy_component(editorcolorpicker);
-    			/*div2_binding*/ ctx[32](null);
+    			/*div2_binding*/ ctx[38](null);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -1840,6 +1870,12 @@
     	let { html = "" } = $$props;
     	let { contentId = "" } = $$props;
     	let { removeFormatTags = ["h1", "h2", "blockquote"] } = $$props;
+    	let { cl_root = "cl" } = $$props;
+    	let { cl_textarea = "cl-textarea" } = $$props;
+    	let { cl_actionbar = "cl-actionbar" } = $$props;
+    	let { cl_content = "cl-content" } = $$props;
+    	let { cl_button = "cl-button" } = $$props;
+    	let { cl_activeButton = "cl-button active" } = $$props;
 
     	let helper = writable({
     		foreColor: false,
@@ -1852,13 +1888,13 @@
     		blurActive: false
     	});
 
-    	component_subscribe($$self, helper, value => $$invalidate(33, $helper = value));
+    	component_subscribe($$self, helper, value => $$invalidate(39, $helper = value));
     	editors.push({});
     	let contextKey = "editor_" + editors.length;
     	let state = createStateStore(contextKey);
-    	component_subscribe($$self, state, value => $$invalidate(2, $state = value));
+    	component_subscribe($$self, state, value => $$invalidate(8, $state = value));
     	let references = writable({});
-    	component_subscribe($$self, references, value => $$invalidate(3, $references = value));
+    	component_subscribe($$self, references, value => $$invalidate(9, $references = value));
     	set_store_value(state, $state.actionObj = getNewActionObj(defaultActions, actions), $state);
 
     	let context = {
@@ -1923,8 +1959,6 @@
     	function exec$1(cmd, value) {
     		exec(cmd, value);
     	}
-
-    	
 
     	function getHtml(sanitize) {
     		return sanitize
@@ -1995,16 +2029,28 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("actions" in $$props) $$invalidate(12, actions = $$props.actions);
+    		if ("actions" in $$props) $$invalidate(18, actions = $$props.actions);
     		if ("height" in $$props) $$invalidate(0, height = $$props.height);
-    		if ("html" in $$props) $$invalidate(13, html = $$props.html);
+    		if ("html" in $$props) $$invalidate(19, html = $$props.html);
     		if ("contentId" in $$props) $$invalidate(1, contentId = $$props.contentId);
-    		if ("removeFormatTags" in $$props) $$invalidate(14, removeFormatTags = $$props.removeFormatTags);
+    		if ("removeFormatTags" in $$props) $$invalidate(20, removeFormatTags = $$props.removeFormatTags);
+    		if ("cl_root" in $$props) $$invalidate(2, cl_root = $$props.cl_root);
+    		if ("cl_textarea" in $$props) $$invalidate(3, cl_textarea = $$props.cl_textarea);
+    		if ("cl_actionbar" in $$props) $$invalidate(4, cl_actionbar = $$props.cl_actionbar);
+    		if ("cl_content" in $$props) $$invalidate(5, cl_content = $$props.cl_content);
+    		if ("cl_button" in $$props) $$invalidate(6, cl_button = $$props.cl_button);
+    		if ("cl_activeButton" in $$props) $$invalidate(7, cl_activeButton = $$props.cl_activeButton);
     	};
 
     	return [
     		height,
     		contentId,
+    		cl_root,
+    		cl_textarea,
+    		cl_actionbar,
+    		cl_content,
+    		cl_button,
+    		cl_activeButton,
     		$state,
     		$references,
     		helper,
@@ -2042,7 +2088,7 @@
     class Editor extends SvelteComponent {
     	constructor(options) {
     		super();
-    		if (!document_1.getElementById("svelte-1a534py-style")) add_css();
+    		if (!document_1.getElementById("svelte-at27n4-style")) add_css();
 
     		init(
     			this,
@@ -2051,25 +2097,31 @@
     			create_fragment,
     			safe_not_equal,
     			{
-    				actions: 12,
+    				actions: 18,
     				height: 0,
-    				html: 13,
+    				html: 19,
     				contentId: 1,
-    				removeFormatTags: 14,
-    				exec: 15,
-    				getHtml: 16,
-    				getText: 17,
-    				setHtml: 18,
-    				saveRange: 19,
-    				restoreRange: 20,
-    				refs: 21
+    				removeFormatTags: 20,
+    				cl_root: 2,
+    				cl_textarea: 3,
+    				cl_actionbar: 4,
+    				cl_content: 5,
+    				cl_button: 6,
+    				cl_activeButton: 7,
+    				exec: 21,
+    				getHtml: 22,
+    				getText: 23,
+    				setHtml: 24,
+    				saveRange: 25,
+    				restoreRange: 26,
+    				refs: 27
     			},
     			[-1, -1]
     		);
     	}
 
     	get actions() {
-    		return this.$$.ctx[12];
+    		return this.$$.ctx[18];
     	}
 
     	set actions(actions) {
@@ -2087,7 +2139,7 @@
     	}
 
     	get html() {
-    		return this.$$.ctx[13];
+    		return this.$$.ctx[19];
     	}
 
     	set html(html) {
@@ -2105,7 +2157,7 @@
     	}
 
     	get removeFormatTags() {
-    		return this.$$.ctx[14];
+    		return this.$$.ctx[20];
     	}
 
     	set removeFormatTags(removeFormatTags) {
@@ -2113,32 +2165,86 @@
     		flush();
     	}
 
+    	get cl_root() {
+    		return this.$$.ctx[2];
+    	}
+
+    	set cl_root(cl_root) {
+    		this.$set({ cl_root });
+    		flush();
+    	}
+
+    	get cl_textarea() {
+    		return this.$$.ctx[3];
+    	}
+
+    	set cl_textarea(cl_textarea) {
+    		this.$set({ cl_textarea });
+    		flush();
+    	}
+
+    	get cl_actionbar() {
+    		return this.$$.ctx[4];
+    	}
+
+    	set cl_actionbar(cl_actionbar) {
+    		this.$set({ cl_actionbar });
+    		flush();
+    	}
+
+    	get cl_content() {
+    		return this.$$.ctx[5];
+    	}
+
+    	set cl_content(cl_content) {
+    		this.$set({ cl_content });
+    		flush();
+    	}
+
+    	get cl_button() {
+    		return this.$$.ctx[6];
+    	}
+
+    	set cl_button(cl_button) {
+    		this.$set({ cl_button });
+    		flush();
+    	}
+
+    	get cl_activeButton() {
+    		return this.$$.ctx[7];
+    	}
+
+    	set cl_activeButton(cl_activeButton) {
+    		this.$set({ cl_activeButton });
+    		flush();
+    	}
+
     	get exec() {
-    		return this.$$.ctx[15];
+    		return this.$$.ctx[21];
     	}
 
     	get getHtml() {
-    		return this.$$.ctx[16];
+    		return this.$$.ctx[22];
     	}
 
     	get getText() {
-    		return this.$$.ctx[17];
+    		return this.$$.ctx[23];
     	}
 
     	get setHtml() {
-    		return this.$$.ctx[18];
+    		return this.$$.ctx[24];
     	}
 
     	get saveRange() {
-    		return this.$$.ctx[19];
+    		return this.$$.ctx[25];
     	}
 
     	get restoreRange() {
-    		return this.$$.ctx[20];
+    		return this.$$.ctx[26];
     	}
 
     	get refs() {
-    		return this.$$.ctx[21];
+    		return this.$$.ctx[27];
     	}
     }
 

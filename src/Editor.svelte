@@ -1,35 +1,8 @@
-<script context="module">
-	const editors = [];
-</script>
-<svelte:window on:click="{ event => _documentClick(event) }" />
-<svelte:options accessors={true}></svelte:options>
-<div class="cl" bind:this={$references.editorWrapper}>
-  <div class="cl-actionbar">
-    {#each $state.actionBtns as action}
-      <button type="button"
-        class="cl-button {action.active ? 'active' : ''}"
-        title="{action.title}"
-        on:click="{event => _btnClicked(action)}"
-        disabled="{action.disabled}">
-        {@html action.icon}
-      </button>
-    {/each}
-  </div>
-  <div bind:this={$references.editor}
-    id="{contentId}"
-    class="cl-content"
-    style="height: {height}"
-    contenteditable="true"
-    on:input="{event => _onChange(event.target.innerHTML)}"
-    on:mouseup="{() => _handleButtonStatus()}"
-    on:keyup="{() => _handleButtonStatus()}"
-    on:paste="{event => _onPaste(event)}">
-  </div>
+<svelte:options accessors={true} />
 
-  <textarea bind:this={$references.raw} class="cl-textarea" style="max-height: {height}; min-height: {height}"></textarea>
-  <EditorModal bind:this={$references.modal}></EditorModal>
-  <EditorColorPicker bind:this={$references.colorPicker}></EditorColorPicker>
-</div>
+<script context="module">
+  const editors = [];
+</script>
 
 <script>
   import {
@@ -41,37 +14,52 @@
     getActionBtns,
     getNewActionObj,
     removeBadTags,
-    isEditorClick
-  } from './helpers/util.js';
+    isEditorClick,
+  } from "./helpers/util.js";
 
-  import defaultActions from './helpers/actions.js';
-  import EditorModal from './helpers/EditorModal.svelte';
-  import EditorColorPicker from './helpers/EditorColorPicker.svelte';
+  import defaultActions from "./helpers/actions.js";
+  import EditorModal from "./helpers/EditorModal.svelte";
+  import EditorColorPicker from "./helpers/EditorColorPicker.svelte";
 
-  import { onMount, createEventDispatcher, setContext, getContext } from "svelte";
+  import {
+    onMount,
+    createEventDispatcher,
+    setContext,
+    getContext,
+  } from "svelte";
   import { createStateStore } from "./helpers/store.js";
-  import {writable} from "svelte/store";
+  import { writable } from "svelte/store";
 
   let dispatcher = new createEventDispatcher();
 
   export let actions = [];
-  export let height = '300px';
-  export let html = '';
-  export let contentId = '';
-  export let removeFormatTags = ['h1', 'h2', 'blockquote']
+  export let height = "300px";
+  export let html = "";
+  export let contentId = "";
+  export let removeFormatTags = ["h1", "h2", "blockquote"];
+
+  /**
+   * styling variables (only for use in svelte components)
+   */
+  export let cl_root = "cl";
+  export let cl_textarea = "cl-textarea";
+  export let cl_actionbar = "cl-actionbar";
+  export let cl_content = "cl-content";
+  export let cl_button = "cl-button";
+  export let cl_activeButton = "cl-button active";
 
   let helper = writable({
-      foreColor: false,
-      backColor: false,
-      foreColorModal: false,
-      backColorModal: false,
-      image: false,
-      link: false,
-      showEditor: true,
-      blurActive: false
+    foreColor: false,
+    backColor: false,
+    foreColorModal: false,
+    backColorModal: false,
+    image: false,
+    link: false,
+    showEditor: true,
+    blurActive: false,
   });
 
-  editors.push({})
+  editors.push({});
   let contextKey = "editor_" + editors.length;
 
   let state = createStateStore(contextKey);
@@ -80,23 +68,23 @@
   $state.actionObj = getNewActionObj(defaultActions, actions);
 
   let context = {
-      exec,
-      getHtml,
-      getText,
-      setHtml,
-      saveRange,
-      restoreRange,
-      helper,
-      references,
-      state,
-      removeFormatTags
-  }
+    exec,
+    getHtml,
+    getText,
+    setHtml,
+    saveRange,
+    restoreRange,
+    helper,
+    references,
+    state,
+    removeFormatTags,
+  };
 
   setContext(contextKey, context);
 
   onMount(() => {
-      $state.actionBtns = getActionBtns($state.actionObj);
-      setHtml(html);
+    $state.actionBtns = getActionBtns($state.actionObj);
+    setHtml(html);
   });
 
   function _btnClicked(action) {
@@ -108,41 +96,57 @@
   }
 
   function _handleButtonStatus(clearBtns) {
-    const tags = clearBtns ? [] : getTagsRecursive(document.getSelection().focusNode);
-    Object.keys($state.actionObj).forEach((action) => $state.actionObj[action].active = false);
-    tags.forEach((tag) => ($state.actionObj[tag.toLowerCase()] || {}).active = true);
+    const tags = clearBtns
+      ? []
+      : getTagsRecursive(document.getSelection().focusNode);
+    Object.keys($state.actionObj).forEach(
+      (action) => ($state.actionObj[action].active = false)
+    );
+    tags.forEach(
+      (tag) => (($state.actionObj[tag.toLowerCase()] || {}).active = true)
+    );
     $state.actionBtns = getActionBtns($state.actionObj);
     $state.actionObj = $state.actionObj;
   }
 
   function _onPaste(event) {
     event.preventDefault();
-    exec('insertHTML', event.clipboardData.getData('text/html') ? cleanHtml(event.clipboardData.getData('text/html')) : event.clipboardData.getData('text'));
+    exec(
+      "insertHTML",
+      event.clipboardData.getData("text/html")
+        ? cleanHtml(event.clipboardData.getData("text/html"))
+        : event.clipboardData.getData("text")
+    );
   }
 
   function _onChange(event) {
-     dispatcher('change', event)
+    dispatcher("change", event);
   }
 
   function _documentClick(event) {
-    if (!isEditorClick(event.target, $references.editorWrapper) && $helper.blurActive) {
-      dispatcher('blur', event);
+    if (
+      !isEditorClick(event.target, $references.editorWrapper) &&
+      $helper.blurActive
+    ) {
+      dispatcher("blur", event);
     }
     $helper.blurActive = true;
   }
 
-  export function exec(cmd, value){
-      _exec(cmd, value);
-  };
+  export function exec(cmd, value) {
+    _exec(cmd, value);
+  }
 
   export function getHtml(sanitize) {
-    return sanitize ? removeBadTags($references.editor.innerHTML) : $references.editor.innerHTML;
+    return sanitize
+      ? removeBadTags($references.editor.innerHTML)
+      : $references.editor.innerHTML;
   }
   export function getText() {
     return $references.editor.innerText;
   }
   export function setHtml(html, sanitize) {
-    const htmlData = sanitize ? removeBadTags(html) : (html || '')
+    const htmlData = sanitize ? removeBadTags(html) : html || "";
     $references.editor.innerHTML = htmlData;
     $references.raw.value = htmlData;
   }
@@ -154,6 +158,43 @@
   }
   export const refs = $references;
 </script>
+
+<svelte:window on:click={(event) => _documentClick(event)} />
+
+<div class={cl_root} bind:this={$references.editorWrapper}>
+  <div class={cl_actionbar}>
+    {#each $state.actionBtns as action}
+      <button
+        type="button"
+        class={action.active ? cl_activeButton : cl_button}
+        title={action.title}
+        on:click={(event) => _btnClicked(action)}
+        disabled={action.disabled}
+      >
+        {@html action.icon}
+      </button>
+    {/each}
+  </div>
+  <div
+    bind:this={$references.editor}
+    id={contentId}
+    class={cl_content}
+    style="height: {height}"
+    contenteditable="true"
+    on:input={(event) => _onChange(event.target.innerHTML)}
+    on:mouseup={() => _handleButtonStatus()}
+    on:keyup={() => _handleButtonStatus()}
+    on:paste={(event) => _onPaste(event)}
+  />
+
+  <textarea
+    bind:this={$references.raw}
+    class={cl_textarea}
+    style="max-height: {height}; min-height: {height}"
+  />
+  <EditorModal bind:this={$references.modal} />
+  <EditorColorPicker bind:this={$references.colorPicker} />
+</div>
 
 <style>
   .cl * {
@@ -193,12 +234,13 @@
     position: relative;
   }
 
-  .cl-button:hover, .cl-button.active {
+  .cl-button:hover,
+  .cl-button.active {
     background-color: #fff;
   }
 
   .cl-button:disabled {
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
   }
 
@@ -213,5 +255,4 @@
   .cl-textarea:focus {
     outline: none;
   }
-
 </style>

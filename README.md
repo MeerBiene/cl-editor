@@ -1,10 +1,11 @@
 ## Lightweight text editor
 
-Built with svelte (no external dependencies) 
+Built with svelte (no external dependencies)
 
 #### File size (bundle includes css, html and js)
-* min: 29kb
-* gzip: 10kb
+
+- min: 29kb
+- gzip: 10kb
 
 ## Installation
 
@@ -28,54 +29,64 @@ npm install --save cl-editor
 ```
 
 #### Usage
+
 ```js
-import Editor from 'cl-editor';
+import Editor from "cl-editor";
 // or
-const Editor = require('cl-editor');
+const Editor = require("cl-editor");
 ```
+
 ```js
 // Initialize editor
 const editor = new Editor({
-    // <HTMLElement> required
-    target: document.getElementById('editor'),
-    // optional
-    props: {
-        // <Array[string | Object]> string if overwriting, object if customizing/creating
-        // available actions:
-        // 'viewHtml', 'undo', 'redo', 'b', 'i', 'u', 'strike', 'sup', 'sub', 'h1', 'h2', 'p', 'blockquote', 
-        // 'ol', 'ul', 'hr', 'left', 'right', 'center', 'justify', 'a', 'image', 'forecolor', 'backcolor', 'removeFormat'
-        actions: [
-            'b', 'i', 'u', 'strike', 'ul', 'ol',
-            {
-                name: 'copy', // required
-                icon: '<b>C</b>', // string or html string (ex. <svg>...</svg>)
-                title: 'Copy',
-                result: () => {
-                    // copy current selection or whole editor content
-                    const selection = window.getSelection();
-                    if (!selection.toString().length) {
-                        const range = document.createRange();
-                        range.selectNodeContents(editor.refs.editor);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    editor.exec('copy');
-                }
-            },
-            'h1', 'h2', 'p'
-        ],
-        // default 300px
-        height: '300px',
-        // initial html
-        html: '',
-        // remove format action clears formatting, but also removes some html tags.
-        // you can specify which tags you want to be removed.
-        removeFormatTags: ['h1', 'h2', 'blackquote'] // default
-    }
-})
+  // <HTMLElement> required
+  target: document.getElementById("editor"),
+  // optional
+  props: {
+    // <Array[string | Object]> string if overwriting, object if customizing/creating
+    // available actions:
+    // 'viewHtml', 'undo', 'redo', 'b', 'i', 'u', 'strike', 'sup', 'sub', 'h1', 'h2', 'p', 'blockquote',
+    // 'ol', 'ul', 'hr', 'left', 'right', 'center', 'justify', 'a', 'image', 'forecolor', 'backcolor', 'removeFormat'
+    actions: [
+      "b",
+      "i",
+      "u",
+      "strike",
+      "ul",
+      "ol",
+      {
+        name: "copy", // required
+        icon: "<b>C</b>", // string or html string (ex. <svg>...</svg>)
+        title: "Copy",
+        result: () => {
+          // copy current selection or whole editor content
+          const selection = window.getSelection();
+          if (!selection.toString().length) {
+            const range = document.createRange();
+            range.selectNodeContents(editor.refs.editor);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+          editor.exec("copy");
+        },
+      },
+      "h1",
+      "h2",
+      "p",
+    ],
+    // default 300px
+    height: "300px",
+    // initial html
+    html: "",
+    // remove format action clears formatting, but also removes some html tags.
+    // you can specify which tags you want to be removed.
+    removeFormatTags: ["h1", "h2", "blackquote"], // default
+  },
+});
 ```
 
 #### API
+
 ```js
 // Methods
 editor.exec(cmd: string, value?: string) // execute document command (document.executeCommand(cmd, false, value))
@@ -87,12 +98,15 @@ editor.restoreRange() // restores cursor position or user selection
 // saveRange and restoreRange are useful when making custom actions
 // that demands that focus is shifted from editor to, for example, modal window.
 ```
-* For list of available _**exec**_ command visit [https://codepen.io/netsi1964/pen/QbLLG](https://codepen.io/netsi1964/pen/QbLLGW)
+
+- For list of available _**exec**_ command visit [https://codepen.io/netsi1964/pen/QbLLG](https://codepen.io/netsi1964/pen/QbLLGW)
+
 ```js
 // Events
-editor.$on('change', (event) => console.log(event)) // on every keyup event
-editor.$on('blur', (event) => console.log(event)) // on editor blur event
+editor.$on("change", (event) => console.log(event)); // on every keyup event
+editor.$on("blur", (event) => console.log(event)); // on editor blur event
 ```
+
 ```js
 // Props
 editor.refs.<editor | raw | modal | colorPicker> // references to editor, raw (textarea), modal and colorPicker HTMLElements
@@ -112,7 +126,7 @@ It is easier to import and work directly from the source if you are using Svelte
 </script>
 
 {@html html}
-<Editor {html} on:change={(evt)=>html = evt.detail}
+<Editor {html} on:change={(evt)=>html = evt.detail} />
 ```
 
 To limit the tools shown in the toolbar, pass in an `actions` prop, eg. `actions={["b", "i", "u", "h2", "ul", "left", "center", "justify", "forecolor"]}`.
@@ -144,7 +158,24 @@ Now observe the resize:
 <Editor {...otherEditorCfgs} contentId='notes-content' bind:this={editor} />
 ```
 
+If you want to have control over the parent classes that are created, you can pass the classnames as follows:
+(these are optional and the editor works without you supplying those classes)
+
+```jsx
+{@html html}
+<Editor {html}
+  on:change={(evt)=>html = evt.detail}
+  cl_root="customRootClass"
+  cl_textarea = "customTextareaClass"
+  cl_actionbar = "customActionbarClass"
+  cl_content = "customContentClass"
+  cl_button = "customButtonClass"
+  cl_activeButton = "customActiveButtonClass"
+/>
+```
+
 #### Run demo
+
 ```bash
 git clone https://github.com/nenadpnc/cl-text-editor.git cl-editor
 cd cl-editor
@@ -156,4 +187,4 @@ npm run dev
 
 ## Licence
 
- MIT License
+MIT License
